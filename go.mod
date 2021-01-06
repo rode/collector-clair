@@ -1,4 +1,4 @@
-module github.com/rode/collector-sonatype
+module github.com/rode/collector-clair
 
 go 1.15
 

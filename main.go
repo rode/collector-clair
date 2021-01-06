@@ -14,7 +14,7 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 
-	"github.com/rode/collector-sonatype/listener"
+	"github.com/rode/collector-clair/listener"
 )
 
 var (
@@ -24,7 +24,7 @@ var (
 )
 
 func main() {
-	flag.IntVar(&port, "port", 8081, "the port that the sonatype collector should listen on")
+	flag.IntVar(&port, "port", 8081, "the port that the Clair collector should listen on")
 	flag.BoolVar(&debug, "debug", false, "when set, debug mode will be enabled")
 	flag.StringVar(&rodeHost, "rode-host", "localhost:50051", "the host to use to connect to rode")
 
@@ -60,7 +60,7 @@ func main() {
 		}
 	}()
 
-	logger.Info("listening for Sonatype events", zap.String("host", server.Addr))
+	logger.Info("listening for Clair events", zap.String("host", server.Addr))
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGINT, syscall.SIGTERM)
