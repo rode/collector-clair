@@ -15,6 +15,7 @@ RUN go mod download
 
 # Copy the go source
 COPY main.go main.go
+COPY clair clair
 COPY listener listener
 
 # Build

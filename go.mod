@@ -3,11 +3,6 @@ module github.com/rode/collector-clair
 go 1.15
 
 require (
-	github.com/grafeas/grafeas v0.1.6
-	github.com/liatrio/rode-api v0.0.0-20201111165410-30d476656f6f
-	github.com/nxadm/tail v1.4.5 // indirect
-	github.com/onsi/ginkgo v1.14.2
-	github.com/onsi/gomega v1.10.3
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rode/rode v0.0.2
 	go.uber.org/zap v1.16.0
