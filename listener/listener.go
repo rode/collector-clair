@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/rode/collector-sonatype/sonatype"
+	"github.com/rode/collector-clair/clair"
 	"github.com/rode/rode/protodeps/grafeas/proto/v1beta1/common_go_proto"
 	"github.com/rode/rode/protodeps/grafeas/proto/v1beta1/package_go_proto"
 	"github.com/rode/rode/protodeps/grafeas/proto/v1beta1/vulnerability_go_proto"
@@ -40,7 +40,7 @@ func NewListener(logger *zap.Logger, client pb.RodeClient) Listener {
 func (l *listener) ProcessEvent(w http.ResponseWriter, request *http.Request) {
 	log := l.logger.Named("ProcessEvent")
 
-	event := &sonatype.Event{}
+	event := &clair.Event{}
 	if err := json.NewDecoder(request.Body).Decode(event); err != nil {
 		w.WriteHeader(500)
 		fmt.Fprintf(w, "error reading webhook event")
@@ -48,11 +48,11 @@ func (l *listener) ProcessEvent(w http.ResponseWriter, request *http.Request) {
 		return
 	}
 
-	log.Debug("received sonatype event", zap.Any("event", event), zap.Any("project", event.Image), zap.Any("image", event.Image))
+	log.Debug("received clair event", zap.Any("event", event), zap.Any("project", event.Image), zap.Any("image", event.Image))
 
 	var occurrences []*grafeas_go_proto.Occurrence
 	for _, vulnerability := range event.Vulnerabilities {
-		log.Debug("sonatype vulnerability received", zap.Any("vulnerability", vulnerability.Vulnerability))
+		log.Debug("clair vulnerability received", zap.Any("vulnerability", vulnerability.Vulnerability))
 		// TODO determine method for getting the repo name if necessary
 		occurrence := createQualityGateOccurrence(&vulnerability, "temp-repo")
 		occurrences = append(occurrences, occurrence)
@@ -73,7 +73,7 @@ func (l *listener) ProcessEvent(w http.ResponseWriter, request *http.Request) {
 	w.WriteHeader(200)
 }
 
-func createQualityGateOccurrence(vulnerability *sonatype.Vulnerability, repo string) *grafeas_go_proto.Occurrence {
+func createQualityGateOccurrence(vulnerability *clair.Vulnerability, repo string) *grafeas_go_proto.Occurrence {
 	occurrence := &grafeas_go_proto.Occurrence{
 		Name: vulnerability.Vulnerability,
 		Resource: &grafeas_go_proto.Resource{
