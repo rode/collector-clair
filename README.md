@@ -1,4 +1,7 @@
 # collector-clair
+
+[![codecov](https://codecov.io/gh/rode/collector-clair/branch/main/graph/badge.svg)](https://codecov.io/gh/rode/collector-clair)
+
 A rode collector for clair scans
 
 ## Running standalone clair scanner
