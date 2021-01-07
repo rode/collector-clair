@@ -18,13 +18,11 @@ jobs:
       - name: Download Dependencies
         run: go mod tidy
 
+      - name: Build
+        run: go build -v .
+
       - name: CodeCov
         run: |
           bash -c '/bin/bash <(curl -s https://codecov.io/bash)'
 
-#     - name: Build
-#       run: make test
-
-      - name: Build
-        run: go build -v .
 
